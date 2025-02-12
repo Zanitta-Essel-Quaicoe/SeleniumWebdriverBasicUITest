@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GoogleSearchTest {
@@ -25,6 +27,15 @@ public class GoogleSearchTest {
         WebElement searchBox = driver.findElement(By.name("q")); // Locate search box
         searchBox.sendKeys("Selenium WebDriver"); // Type search query
         searchBox.submit(); // Submit search
+
+        // Pause execution for manual CAPTCHA solving
+        System.out.println("Solve CAPTCHA manually, press Enter to continue...");
+        try {
+            Thread.sleep(60000); // Pause for 30 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // Wait for user input
 
         assertEquals("Selenium WebDriver - Google Search", driver.getTitle()); // Verify title
     }
