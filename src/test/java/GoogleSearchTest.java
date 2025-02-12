@@ -6,13 +6,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import com.github.javafaker.Faker;
 
-import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GoogleSearchTest {
     private WebDriver driver;
+
 
     @BeforeEach
     void setUp() {
@@ -24,20 +25,24 @@ public class GoogleSearchTest {
     void googleSearchTest() {
         driver.get("https://www.google.com"); // Open Google
 
+
+        Faker testData = new Faker();
+        String fullname = testData.name().fullName();
+
         WebElement searchBox = driver.findElement(By.name("q")); // Locate search box
-        searchBox.sendKeys("Selenium WebDriver"); // Type search query
+        searchBox.sendKeys(fullname); // Search query
         searchBox.submit(); // Submit search
 
         // Pause execution for manual CAPTCHA solving
-        System.out.println("Solve CAPTCHA manually, press Enter to continue...");
+        System.out.println("Solve CAPTCHA manually in 60seconds to continue.");
         try {
-            Thread.sleep(60000); // Pause for 30 seconds
+            Thread.sleep(50000); // Pause for 50 seconds
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // Wait for user input
 
-        assertEquals("Selenium WebDriver - Google Search", driver.getTitle()); // Verify title
+        assertTrue(driver.getTitle().contains(fullname)); // Verify title
+        System.out.println(driver.getTitle().split(" - ")[0] + " " + "searched successfully");
     }
 
     @AfterEach
